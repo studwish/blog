@@ -1,0 +1,19 @@
+name: Build Site
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node generate-site.js
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add dist/
+          git commit -m "Auto-generate site"
+          git push
